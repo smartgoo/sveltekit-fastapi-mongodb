@@ -1,9 +1,9 @@
 ## SvelteKit - FastAPI - MongoDB with Docker project template
 This project is still in progress. Some features are incomplete or completely missing. The goal is to build this into a complete starter template for this tech stack.
 
-Frontend: [Svelte](https://svelte.dev/) with [SvelteKit](https://kit.svelte.dev/)
-Backend: [FastAPI](https://fastapi.tiangolo.com/)
-Database: [MongoDB](https://www.mongodb.com/)
+- Frontend: [Svelte](https://svelte.dev/) with [SvelteKit](https://kit.svelte.dev/)
+- Backend: [FastAPI](https://fastapi.tiangolo.com/)
+- Database: [MongoDB](https://www.mongodb.com/)
 
 ## A big thanks to these projects
 A few existing existing project templates were referenced while building this. A big thanks to these:
@@ -20,6 +20,7 @@ A few existing existing project templates were referenced while building this. A
 ## TODO
 Misc:
 - [] build a full real world app using this starter template as an example
+- [] finish docs
 
 SvelteKit
 - [] environment variables
