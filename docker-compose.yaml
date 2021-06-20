@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+    mongodb:
+        image: mongo:latest
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: mongouser
+            MONGO_INITDB_ROOT_PASSWORD: mongopassword
+        ports:
+            - 27017:27017
+        volumes:
+            - mongodb:/data/db
+
+    backend:
+        build:
+            context: ./backend
+        env_file:
+            - ./backend/.env.example
+        volumes:
+            - ./backend:/usr/src/app
+        command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+        ports:
+            - 8000:8000
+        depends_on: 
+            - mongodb
+
+    frontend:
+        build:
+            context: ./frontend
+        volumes:
+            - ./frontend:/usr/src/app
+        command: npx svelte-kit dev --host 0.0.0.0
+        ports:
+            - 3000:3000
+            - 24678:24678 # this is a port for Vite. Browser will refresh pages endlessly if not exposed
+        depends_on: 
+            - backend
+
+volumes:
+    mongodb:
