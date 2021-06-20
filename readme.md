@@ -3,10 +3,11 @@ Please note that this project is still in progress. Some features are incomplete
 
 ## Credit where credit is due
 A few existing existing project templates were referenced while building this. This project is heavily influenced by these projects:
-(https://github.com/markqiu/fastapi-mongodb-realworld-example-app)
-(https://fastapi.tiangolo.com/project-generation/)
+- [FastAPI MongoDB Real World Example](https://github.com/markqiu/fastapi-mongodb-realworld-example-app)
+- [FastAPI Project Template](https://fastapi.tiangolo.com/project-generation/)
 
-## SvelteKit
+## A Note on SvelteKit
+[SvelteKit](https://kit.svelte.dev/) is in public beta (at the time of this writing on 6/20/21). Many changes (including breaking changes) are expected as the Svelte team works towards version 1.
 
 ## Getting started
 
