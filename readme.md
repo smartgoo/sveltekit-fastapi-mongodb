@@ -30,7 +30,7 @@ Backend
 - [] Celery & Celery Beat
 - [] Redis
 - [] clean up FastAPI config file
-- [] add user models, user crud, registration, authorization, jwt 
+- [] add user models, user crud ops, registration w/ email verification, authentication, jwt
 - [] setup skeleton for permissions
 
 Docker
