@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     MONGODB_PASSWORD: str = os.environ.get('MONGODB_PASSWORD')
     MONGODB_DB: str = os.environ.get('MONGODB_DB')
     MONGODB_CONN_STRING = DatabaseURL(
-        f"mongodb://{MONGODB_USER}:{MONGODB_PASSWORD}@{MONGODB_HOST}:{MONGODB_PORT}/{MONGODB_DB}"
+        f"mongodb://{MONGODB_USER}:{MONGODB_PASSWORD}@{MONGODB_HOST}:{MONGODB_PORT}"
     )
 
     SMTP_TLS: bool = True
@@ -46,6 +46,11 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: EmailStr = 'test@example.com'
     FIRST_SUPERUSER_PASSWORD: str = ''
     USERS_OPEN_REGISTRATION: bool = False
+
+
+    # DB Collections
+    MONGODB_USERS_COLLECTION = 'users'
+
 
     class Config:
         case_sensitive = True

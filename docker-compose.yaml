@@ -4,6 +4,7 @@ services:
     mongodb:
         image: mongo:latest
         environment:
+            MONGO_DB: app
             MONGO_INITDB_ROOT_USERNAME: mongouser
             MONGO_INITDB_ROOT_PASSWORD: mongopassword
         ports:
@@ -32,7 +33,7 @@ services:
         command: npx svelte-kit dev --host 0.0.0.0
         ports:
             - 3000:3000
-            - 24678:24678 # this is a port for Vite. Browser will refresh pages endlessly if not exposed
+            - 24678:24678 # this is a port for Vite. Browser will refresh pages endlessly if not exposed. Only needed in dev
         depends_on: 
             - backend
 

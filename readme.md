@@ -13,14 +13,14 @@ A few existing existing project templates were referenced while building this. A
 ## A note on SvelteKit
 [SvelteKit](https://kit.svelte.dev/) is in public beta (at the time of this writing on 6/20/21). Many changes (including breaking changes) are expected as the Svelte team works towards version 1.
 
-## Getting started
+## How to use this project template
 
 ## Features
 
 ## TODO
 Misc:
 - [] build a full real world app using this starter template as an example
-- [] finish docs
+- [] finish readme
 
 SvelteKit
 - [] environment variables
@@ -30,9 +30,9 @@ Backend
 - [] Celery & Celery Beat
 - [] Redis
 - [] clean up FastAPI config file
-- [] add basic FastAPI crud class
-- [] basic auth functionality
+- [] add user models, user crud, registration, authorization, jwt 
+- [] setup skeleton for permissions
 
 Docker
 - [] docker-compose.yaml and docker-compose.override.yaml
-- [] add ngnix?
+- [] add ngnix or traefik?
