@@ -1,7 +1,9 @@
+from datetime import datetime
 from typing import Optional
 
 from pydantic import EmailStr, constr
 
+from .jwt import AccessToken 
 from app.models.core import CoreModel, DateTimeModelMixin, IDModelMixin
 
 
@@ -10,8 +12,8 @@ class UserBase(CoreModel):
     Leaving off password and salt from base model
     """
     email: EmailStr
-    first_name: Optional[str]
-    last_name: Optional[str]
+    first_name: str
+    last_name: str
     email_verified: bool = False
     is_active: bool = True
     is_superuser: bool = False
@@ -22,7 +24,7 @@ class UserCreate(UserBase, DateTimeModelMixin):
     Email, password, first, last names are required for registering a new user
     """
     email: EmailStr
-    password: constr(min_length=7, max_length=100)
+    password: constr(min_length=8, max_length=100)
     first_name: str
     last_name: str
 
@@ -40,7 +42,7 @@ class UserPasswordUpdate(CoreModel):
     """
     Users can change their password
     """
-    password: constr(min_length=7, max_length=100)
+    password: constr(min_length=8, max_length=100)
     salt: str
 
 
@@ -53,5 +55,5 @@ class UserInDB(IDModelMixin, DateTimeModelMixin, UserBase):
 
 
 class UserPublic(IDModelMixin, DateTimeModelMixin, UserBase):
-    pass
+    access_token: Optional[AccessToken]
 

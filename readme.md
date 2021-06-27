@@ -9,6 +9,7 @@ This project is still in progress. Some features are incomplete or completely mi
 A few existing existing project templates were referenced while building this. A big thanks to these:
 - [FastAPI MongoDB Real World Example](https://github.com/markqiu/fastapi-mongodb-realworld-example-app)
 - [FastAPI Project Template](https://fastapi.tiangolo.com/project-generation/)
+- [Jeff Astor's FastAPI Blog Posts](https://www.jeffastor.com/blog/designing-a-robust-user-model-in-a-fastapi-app) heavily influenced authentication
 
 ## A note on SvelteKit
 [SvelteKit](https://kit.svelte.dev/) is in public beta (at the time of this writing on 6/20/21). Many changes (including breaking changes) are expected as the Svelte team works towards version 1.

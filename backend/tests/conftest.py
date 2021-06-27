@@ -14,7 +14,7 @@ from app.api.deps import get_database
 from app import models, services, crud
 
 
-# Setup 2x pytest-asyncio functions to help with closing the event loop properly. 
+# Setup pytest-asyncio functions to help with closing the event loop properly. 
 @pytest.fixture
 def event_loop():
     yield asyncio.get_event_loop()

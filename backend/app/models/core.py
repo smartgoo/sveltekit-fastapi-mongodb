@@ -24,8 +24,18 @@ class DateTimeModelMixin(BaseModel):
 
 
 class IDModelMixin(BaseModel):
+    """
+    Allows a model to read the MongoDB _id in
+    TODO figure out better way to handle this
+    """
     id: MongoIDType = Field(alias='_id')
 
     class Config:
+        # Allows `id` or `_id` input to popluate the field `id`
+        allow_population_by_field_name = True 
+
+        # Allows use of our custom type `MongoIDType`
         arbitrary_types_allowed = True
+
+        # Since MongoDB ObjectIDs are BSON, this allows encoding to JSON
         json_encoders = {ObjectId: str}
