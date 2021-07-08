@@ -10,8 +10,9 @@ from httpx import AsyncClient
 from databases import Database
 
 from app.db.mongodb import db
-from app.api.deps import get_database
+from app.api.deps.db import get_database
 from app import models, services, crud
+from app.core.config import settings
 
 
 # Setup pytest-asyncio functions to help with closing the event loop properly. 
@@ -71,3 +72,13 @@ async def test_user(database: Database) -> models.UserInDB:
         return user
     user = await services.registration.register_new_user(db=database, user_in=new_user)
     return user
+
+
+@pytest.fixture
+def authorized_client(client: AsyncClient, test_user: models.UserInDB) -> AsyncClient:
+    access_token = services.authentication.create_access_token_for_user(user=test_user, secret_key=str(settings.SECRET_KEY))
+    client.headers = {
+        **client.headers,
+        "Authorization": f"{settings.JWT_TOKEN_PREFIX} {access_token}",
+    }
+    return client

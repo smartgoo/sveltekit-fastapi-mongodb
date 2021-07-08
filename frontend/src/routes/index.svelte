@@ -23,13 +23,25 @@
 
 <script>
     export let posts;
+
+	function handleOnSubmit() {
+		console.log("I'm the handleOnSubmit() in App.svelte")
+	}
 </script> 
 
 
-<div class="container">
+<div>
     {#each posts as post}
 		<h1>{post.title}</h1>
 		<h4>Publish date: {post.date}</h4>
 		<p>{post.text}</p>
 	{/each}
+
+	<div>
+		<form on:submit={handleOnSubmit}>
+			<input type="text" name="username" id="">
+			<input type="text" name="password" id="">
+			<input type="button">
+		</form>
+	</div>
 </div>

@@ -6,7 +6,7 @@ from app.models.core import CoreModel
 
 
 class JWTMeta(CoreModel):
-    iss: str = "smartgoo.example"
+    iss: str = "smartgoo.io"
     aud: str = settings.JWT_AUDIENCE
     iat: float = datetime.timestamp(datetime.utcnow())
     exp: float = datetime.timestamp(datetime.utcnow() + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES))
@@ -15,6 +15,7 @@ class JWTMeta(CoreModel):
 class JWTCreds(CoreModel):
     """How we'll identify users"""
     sub: EmailStr
+    # email: EmailStr
 
 
 class JWTPayload(JWTMeta, JWTCreds):

@@ -3,7 +3,7 @@ from typing import List, Union, Type, Optional
 import pytest
 import jwt
 from httpx import AsyncClient
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from databases import Database
 from pydantic import ValidationError
 from starlette.datastructures import Secret
@@ -223,33 +223,102 @@ class TestUserLogin:
         assert res.json().get("token_type") == "bearer"
 
 
-#     @pytest.mark.parametrize(
-#         "credential, wrong_value, status_code",
-#         (
-#             ("email", "wrong@email.com", 401),
-#             ("email", None, 401),
-#             ("email", "notemail", 401),
-#             ("password", "wrongpassword", 401),
-#             ("password", None, 401),
-#         ),
-#     )
-#     async def test_user_with_wrong_creds_doesnt_receive_token(
-#         self,
-#         app: FastAPI,
-#         client: AsyncClient,
-#         test_user: models.UserInDB,
-#         credential: str,
-#         wrong_value: str,
-#         status_code: int,
-#     ) -> None:
-#         client.headers["content-type"] = "application/x-www-form-urlencoded"
-#         user_data = test_user.dict()
-#         user_data["password"] = "testtest"  # insert user's plaintext password
-#         user_data[credential] = wrong_value
-#         login_data = {
-#             "username": user_data["email"],
-#             "password": user_data["password"],  # insert password from parameters
-#         }
-#         res = await client.post(app.url_path_for("users:login-email-and-password"), data=login_data)
-#         assert res.status_code == status_code
-#         assert "access_token" not in res.json()
+    @pytest.mark.asyncio
+    @pytest.mark.parametrize(
+        "credential, wrong_value, status_code",
+        (
+            ("email", "wrong@email.com", 401),
+            ("email", None, 401),
+            ("email", "notemail", 401),
+            ("password", "wrongpassword", 401),
+            ("password", None, 401),
+        ),
+    )
+    async def test_user_with_wrong_creds_doesnt_receive_token(
+        self,
+        app: FastAPI,
+        client: AsyncClient,
+        test_user: models.UserInDB,
+        credential: str,
+        wrong_value: str,
+        status_code: int,
+    ) -> None:
+        client.headers["content-type"] = "application/x-www-form-urlencoded"
+        user_data = test_user.dict()
+        user_data["password"] = "testtest"  # insert user's plaintext password
+        user_data[credential] = wrong_value
+        login_data = {
+            "username": user_data["email"],
+            "password": user_data["password"],
+        }
+        res = await client.post(app.url_path_for("user:login"), data=login_data)
+        assert res.status_code == status_code
+        assert "access_token" not in res.json()
+
+
+    @pytest.mark.asyncio    
+    async def test_can_retrieve_email_from_token(
+        self, app: FastAPI, client: AsyncClient, test_user: models.UserInDB
+    ) -> None:
+        token = services.authentication.create_access_token_for_user(user=test_user, secret_key=str(settings.SECRET_KEY))
+        email = services.authentication.get_email_from_token(token=token, secret_key=str(settings.SECRET_KEY))
+        assert email == test_user.email
+
+    @pytest.mark.asyncio
+    @pytest.mark.parametrize(
+        "secret, wrong_token",
+        (
+            (settings.SECRET_KEY, "asdf"),  # use wrong token
+            (settings.SECRET_KEY, ""),  # use wrong token
+            (settings.SECRET_KEY, None),  # use wrong token
+            ("ABC123", "use correct token"),  # use wrong secret
+        ),
+    )
+    async def test_error_when_token_or_secret_is_wrong(
+        self,
+        app: FastAPI,
+        client: AsyncClient,
+        test_user: models.UserInDB,
+        secret: Union[Secret, str],
+        wrong_token: Optional[str],
+    ) -> None:
+        token = services.authentication.create_access_token_for_user(user=test_user, secret_key=str(settings.SECRET_KEY))
+        if wrong_token == "use correct token":
+            wrong_token = settings.JWT_TOKEN_PREFIX
+        with pytest.raises(HTTPException):
+            print(secret)
+            print(wrong_token)
+            email = services.authentication.get_email_from_token(token=wrong_token, secret_key=str(secret))  
+            print(email)
+
+
+class TestUserMe:
+    @pytest.mark.asyncio
+    async def test_authenticated_user_can_retrieve_own_data(
+        self, app: FastAPI, authorized_client: AsyncClient, test_user: models.UserInDB,
+    ) -> None:
+        res = await authorized_client.get(app.url_path_for("user:me"))
+        assert res.status_code == HTTP_200_OK
+        user = models.UserPublic(**res.json())
+        assert user.email == test_user.email
+        assert user.id == test_user.id
+
+
+    @pytest.mark.asyncio
+    async def test_user_cannot_access_own_data_if_not_authenticated(
+        self, app: FastAPI, client: AsyncClient, test_user: models.UserInDB,
+    ) -> None:
+        res = await client.get(app.url_path_for("user:me"))
+        assert res.status_code == HTTP_401_UNAUTHORIZED
+
+
+    @pytest.mark.asyncio
+    @pytest.mark.parametrize("jwt_prefix", (("",), ("value",), ("Token",), ("JWT",), ("Swearer",),))
+    async def test_user_cannot_access_own_data_with_incorrect_jwt_prefix(
+        self, app: FastAPI, client: AsyncClient, test_user: models.UserInDB, jwt_prefix: str,
+    ) -> None:
+        token = services.authentication.create_access_token_for_user(user=test_user, secret_key=str(settings.SECRET_KEY))
+        res = await client.get(
+            app.url_path_for("user:me"), headers={"Authorization": f"{jwt_prefix} {token}"}
+        )
+        assert res.status_code == HTTP_401_UNAUTHORIZED

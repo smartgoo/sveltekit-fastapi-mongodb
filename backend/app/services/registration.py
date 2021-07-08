@@ -10,11 +10,7 @@ class RegistrationService():
     Abstracts out the lower level operations in the registration flow.
     Handles crud operations, celery worker delegation, emails, etc.
     """
-    # TODO - add hashing function
-    # TODO - add salt generation function
-    # TODO - add flow for verifying email before you can login
-    # TODO - once email is verified, allow login
-    # TODO - once celery is up and running, rely on celery for portions of this flow
+    # TODO - verify email before allowing login
 
     async def register_new_user(self, db: AsyncIOMotorClient, user_in: models.UserCreate) -> models.UserInDB:
         """
