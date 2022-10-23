@@ -1,9 +1,11 @@
-FROM mhart/alpine-node:12
+FROM node:16
 
-# install dependencies
 WORKDIR /usr/src/app
-COPY package.json package-lock.json ./
-RUN npm ci
 
-# Copy all local files into the image.
+COPY package.json package-lock.json ./
+
+RUN npm ci
 COPY . .
+RUN npm run build
+
+CMD npm rebuild esbuild && npm run dev -- --host

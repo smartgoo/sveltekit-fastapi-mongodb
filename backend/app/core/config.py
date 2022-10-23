@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     SERVER_NAME: str = ''
     SERVER_HOST: str = ''
 
-    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = ["http://frontend"]
+    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = ["http://localhost:5173"]
 
     PROJECT_NAME: str = 'SvelteKit-FastAPI-MongoDB Starter Template'
     SENTRY_DSN: Optional[HttpUrl] = None

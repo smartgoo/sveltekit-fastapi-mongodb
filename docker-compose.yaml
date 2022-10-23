@@ -30,10 +30,9 @@ services:
             context: ./frontend
         volumes:
             - ./frontend:/usr/src/app
-        command: npx svelte-kit dev --host 0.0.0.0
+        # command: npm run dev -- --host 0.0.0.0
         ports:
-            - 3000:3000
-            - 24678:24678 # this is a port for Vite. Browser will refresh pages endlessly if not exposed. Only needed in dev
+            - 5173:5173
         depends_on: 
             - backend
 

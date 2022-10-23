@@ -1,6 +1,6 @@
 <nav>
     <div class="nav-group">
-        <a href="/" id="home">Chuck Vallone</a>
+        <a href="/" id="home">Home</a>
         <a href="/articles">Articles</a>
         <a href="/tutorials">Tutorials</a>
         <a href="/contact">Contact</a>
