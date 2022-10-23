@@ -1,7 +1,7 @@
 ## Summary: Dockerized SvelteKit - FastAPI - MongoDB Example Project
 This project is an example of how SvelteKit, FastAPI, and MongoDB can be dockerized and ran via docker compose. Note that, as of right now, this is not perfect. This project is meant to serve as an example/reference. However, it can be manually converted into a starting template. 
 
-## UPDATED TO THE LATEST VERSIONS! 
+## Updated To Latest Versions
 This project was updated on October 23 2022, and uses the latest versions possible. 
 - Node v16
 - SvelteKit 1.0.0-next.522
