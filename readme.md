@@ -11,7 +11,7 @@ This project is an example of how SvelteKit, FastAPI, and MongoDB can be dockeri
 7. Open the FastAPI OpenAPI docs: `http://localhost:8000/docs`
 
 ## Updated To Latest Versions
-This project was updated on October 23 2022, and uses the latest versions possible. 
+This project was updated on October 23 2022, and uses the latest versions available at the time. 
 - Node v16
 - SvelteKit 1.0.0-next.522
 - Python 3.10.8
