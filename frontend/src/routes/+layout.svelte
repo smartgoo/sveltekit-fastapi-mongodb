@@ -1,7 +1,8 @@
 <script>
-    import Nav from '$lib/Nav.svelte';
-</script>
+    import Nav from '$lib/components/Nav.svelte';
 
+    import "../app.css";
+</script>
 
 <main>
     <Nav />
